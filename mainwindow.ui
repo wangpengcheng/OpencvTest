@@ -1,24 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>446</width>
+    <height>668</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>MainWindow</string>
+  <property name="windowTitle">
+   <string>图片拼接器</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QListView" name="image_list_view">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>421</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_img_button">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>180</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>添加图片</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="delete_img_button">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>180</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除图片</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="change_arc_button">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>180</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>更改参数</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="channce_changebutton">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>390</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>取消</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="confirm_change_button">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>390</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>确定</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stitch_img_button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>440</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>拼接图片</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save_img_button">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>440</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>保存图片</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clean_imgs_button">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>180</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>清空图片</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="log_edit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>490</y>
+      <width>431</width>
+      <height>131</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>446</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOpenCV">
+    <property name="title">
+     <string>OpenCV图片拼接器</string>
+    </property>
+   </widget>
+   <addaction name="menuOpenCV"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>add_img_button</sender>
+   <signal>clicked()</signal>
+   <receiver>stitch_img_button</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>65</x>
+     <y>234</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>155</x>
+     <y>494</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

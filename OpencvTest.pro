@@ -23,27 +23,29 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++11
-
+#CONFIG += console
+#CONFIG -= app_bundle
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        my_stitcher.cpp 
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        my_stitcher.h
 
 FORMS += \
         mainwindow.ui
-INCLUDEPATH +=  E:/opencv3.4.0/install/include \
-                E:/opencv3.4.0/install/include/opencv\
-                E:/opencv3.4.0/install/include/opencv2
+INCLUDEPATH +=  E:/opencv3.4.0/install/include/ #
+#                E:/opencv3.4.0/install/include/opencv\
+#                E:/opencv3.4.0/install/include/opencv2
 
 LIBS += E:/opencv3.4.0/install/x64/vc14/lib/opencv_aruco340d.lib \
 #        /usr/local/lib/libopencv_highgui.so.2.4.9\
 #        /usr/local/lib/libopencv_imgproc.so.2.4.9\
-#        /usr/local/lib/libopencv_stitching.so.2.4.9\         #图像拼接模块
+#       /usr/local/lib/libopencv_stitching.so.2.4.9\         #图像拼接模块
 #        /usr/local/lib/libopencv_nonfree.so.2.4.9\     #SIFT,SURF
 #        /usr/local/lib/libopencv_features2d.so.2.4.9   #特征检测
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_aruco340d.lib \
         E:/opencv3.4.0/install/x64/vc14/lib/opencv_bgsegm340d.lib \
         E:/opencv3.4.0/install/x64/vc14/lib/opencv_bioinspired340d.lib \
         E:/opencv3.4.0/install/x64/vc14/lib/opencv_calib3d340d.lib \
@@ -85,7 +87,7 @@ LIBS += E:/opencv3.4.0/install/x64/vc14/lib/opencv_aruco340d.lib \
         E:/opencv3.4.0/install/x64/vc14/lib/opencv_ximgproc340d.lib \
         E:/opencv3.4.0/install/x64/vc14/lib/opencv_xobjdetect340d.lib \
         E:/opencv3.4.0/install/x64/vc14/lib/opencv_xphoto340d.lib
-
+# E:/opencv3.4.5/opencv/build/x64/vc14/lib/opencv_world345d.lib
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
