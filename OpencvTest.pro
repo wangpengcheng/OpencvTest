@@ -32,7 +32,8 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    mystitcher.h
+        mystitcher.h \
+        mytool.h
 
 FORMS += \
         mainwindow.ui

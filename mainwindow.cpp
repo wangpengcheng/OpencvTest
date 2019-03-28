@@ -22,23 +22,10 @@ void MainWindow::Init()
     if(img_list_view_model_!=nullptr){
         ui->image_list_view->setModel(img_list_view_model_);
     };
-    DisableArg(false);
-    //设置featurestype
-    ui->featurestype_combobox->addItem(QString("surf"));
-    ui->featurestype_combobox->addItem(QString("orb"));
-    ui->featurestype_combobox->setCurrentIndex(0);
-    //设置matchertype
-    ui->matchertype_combobox->addItem(QString("homography"));
-    ui->matchertype_combobox->addItem(QString("affine"));
-    //设置ba_cost_func type
-    ui->bacosttype_combobox->addItem(QString("ray"));
-    ui->bacosttype_combobox->addItem(QString("reproj"));
-    ui->bacosttype_combobox->addItem(QString("affine"));
-    ui->bacosttype_combobox->addItem(QString("no"));
-    //设置wavecorrecttype
-    ui->wavecorrecttype_combobox->addItem(QString("horiz"));
-    ui->wavecorrecttype_combobox->addItem(QString("vert"));
-    ui->wavecorrecttype_combobox->addItem(QString("no"));
+    //set unable Args;
+    DisableArg(true);
+    InitArg();
+
 
 }
 
@@ -90,7 +77,7 @@ void MainWindow::DisableArg(bool is_able){
         ui->saveimage_checkbox->setEnabled(true);
         ui->wavecorrect_checkbox->setEnabled(true);
         ui->showimg_checkbox->setEnabled(true);
-
+        arg_is_change_able=true;
     }else if (!is_able) {
         ui->featurestype_combobox->setEnabled(false);
         ui->matchertype_combobox->setEnabled(false);
@@ -110,5 +97,94 @@ void MainWindow::DisableArg(bool is_able){
         ui->saveimage_checkbox->setEnabled(false);
         ui->wavecorrect_checkbox->setEnabled(false);
         ui->showimg_checkbox->setEnabled(false);
+        arg_is_change_able=false;
     }
+}
+void MainWindow::InitArg(){
+    //设置featurestype
+    ui->featurestype_combobox->addItem(QString("surf"));
+    ui->featurestype_combobox->addItem(QString("orb"));
+    //ui->featurestype_combobox->setCurrentIndex(0);
+    //设置matchertype
+    ui->matchertype_combobox->addItem(QString("homography"));
+    ui->matchertype_combobox->addItem(QString("affine"));
+    //设置ba_cost_func type
+    ui->bacosttype_combobox->addItem(QString("ray"));
+    ui->bacosttype_combobox->addItem(QString("reproj"));
+    ui->bacosttype_combobox->addItem(QString("affine"));
+    ui->bacosttype_combobox->addItem(QString("no"));
+    //设置wavecorrecttype
+    ui->wavecorrecttype_combobox->addItem(QString("horiz"));
+    ui->wavecorrecttype_combobox->addItem(QString("vert"));
+    ui->wavecorrecttype_combobox->addItem(QString("no"));
+    //设置warptype
+    ui->warptype_combobox->addItem(QString("spherical"));
+    ui->warptype_combobox->addItem(QString("plane"));
+    ui->warptype_combobox->addItem(QString("affine"));
+    ui->warptype_combobox->addItem(QString("cylindrical"));
+    ui->warptype_combobox->addItem(QString("fisheye"));
+    ui->warptype_combobox->addItem(QString("stereographic"));
+    ui->warptype_combobox->addItem(QString("compressedPlaneA2B1"));
+    ui->warptype_combobox->addItem(QString("compressedPlaneA1.5B1"));
+    ui->warptype_combobox->addItem(QString("compressedPlanePortraitA2B1"));
+    ui->warptype_combobox->addItem(QString("compressedPlanePortraitA1.5B1"));
+    ui->warptype_combobox->addItem(QString("paniniA2B1"));
+    ui->warptype_combobox->addItem(QString("paniniA1.5B1"));
+    ui->warptype_combobox->addItem(QString("paniniPortraitA2B1"));
+    ui->warptype_combobox->addItem(QString("paniniPortraitA1.5B1"));
+    ui->warptype_combobox->addItem(QString("mercator"));
+    ui->warptype_combobox->addItem(QString("transverseMercator"));
+    //exposcomptype
+    ui->exposcomptype_combobox->addItem(QString("gain_blocks"));
+    ui->exposcomptype_combobox->addItem(QString("gain"));
+    ui->exposcomptype_combobox->addItem(QString("no"));
+    //seamfindtype
+    ui->seamfindtype_combobox->addItem(QString("gc_color"));
+    ui->seamfindtype_combobox->addItem(QString("voronoi"));
+    ui->seamfindtype_combobox->addItem(QString("gc_colorgrad"));
+    ui->seamfindtype_combobox->addItem(QString("dp_color"));
+    ui->seamfindtype_combobox->addItem(QString("dp_colorgrad"));
+    ui->seamfindtype_combobox->addItem(QString("no"));
+    //blendtype
+    ui->blendtype_combobox->addItem(QString("multiband"));
+    ui->blendtype_combobox->addItem(QString("feather"));
+    ui->blendtype_combobox->addItem(QString("no"));
+    //sin_box start
+    //workmegapix
+    ui->workmegapix_spinbox->setValue(0.6);
+    //seammegapix
+    ui->seammegapix_spinbox->setValue(0.1);
+    //composemegapix
+    ui->composemegapix_spinbox->setMinimum(-10);
+    ui->composemegapix_spinbox->setValue(-1);
+    //confthresh
+    ui->confthresh_spinbox->setValue(1.0);
+    //matchconf
+    ui->matchconf_spinbox->setValue(0.3);
+    //sin_box end
+    //check box
+    ui->wavecorrect_checkbox->setCheckState(Qt::CheckState::Checked);
+    ui->showimg_checkbox->setCheckState(Qt::CheckState::Checked);
+    ui->saveimage_checkbox->setCheckState(Qt::CheckState::Checked);
+    ui->preview_checkbox->setCheckState(Qt::CheckState::Unchecked);
+}
+
+void MainWindow::on_change_arc_button_clicked()
+{
+    if(arg_is_change_able){
+        DisableArg(false);
+    }else if (!arg_is_change_able) {
+        DisableArg(true);
+    }
+}
+
+void MainWindow::on_channce_changebutton_clicked()
+{
+    InitArg();
+    DisableArg(false);
+}
+
+void MainWindow::on_confirm_change_button_clicked()
+{
+    //save arg to Mystutcher;
 }

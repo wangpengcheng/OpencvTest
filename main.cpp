@@ -2,7 +2,7 @@
 #include <iostream>
 #include <QCoreApplication>
 #include <QApplication>
-#include "mystitcher.h"
+//#include "mystitcher.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
