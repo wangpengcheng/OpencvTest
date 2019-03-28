@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT    += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,11 +28,11 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        my_stitcher.cpp 
+        mystitcher.cpp
 
 HEADERS += \
         mainwindow.h \
-        my_stitcher.h
+    mystitcher.h
 
 FORMS += \
         mainwindow.ui
