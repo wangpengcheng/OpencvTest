@@ -66,7 +66,10 @@ void MainWindow::on_delete_img_button_clicked()
 
 void MainWindow::on_clean_imgs_button_clicked()
 {
+    //清空列表面板
     img_list_view_model_->clear();
+    //清空图片名字向量
+    images.clear();
 }
 void MainWindow::DisableArg(bool is_able){
 
@@ -226,6 +229,7 @@ void MainWindow::on_confirm_change_button_clicked()
 void MainWindow::WriteToLogEdit(QString log_string)
 {
     ui->log_edit->append(log_string);
+    ui->log_edit->update();
 }
 //清除日制面板
 void MainWindow::CleanLogEdit()
