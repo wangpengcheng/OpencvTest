@@ -18,6 +18,11 @@
 **
 *****************************************************************************/
 #include <QObject>
+#include <QFile>
+#include <QDir>
+#include <QtDebug>
+#include <QDateTime>
+#include <QObject>
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -146,6 +151,10 @@ public:
     void SaveImage(std::string file_path);//输入图片路径存储图片
     /*get and set end */
     void ImgNamesClean();//图片清除
+    int CreateLogFile();//创建日志文件
+    inline bool is_log(){return is_log_;}
+    inline void set_is_log(bool is_log){is_log_=is_log;}
+    inline std::string log_file_path(){return log_file_path_;}
 signals:
 
 public slots:
@@ -178,6 +187,8 @@ private :
     bool timelapse_ = false;//是否使用时间帧
     int timelapse_type_ = Timelapser::AS_IS;//输出时间帧方法
     Mat result_img_;//计算结果图片
+    std::string log_file_path_;
+    bool is_log_=false;
 };
 
 #endif // MYSTITCHER_H

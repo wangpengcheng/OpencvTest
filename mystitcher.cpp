@@ -542,9 +542,16 @@ void MyStitcher::Init(){
 	img_names_.push_back(img2);
 	img_names_.push_back(img3);
     img_names_.push_back(img4);
+    //创建日制文件
+    if(is_log_){
+        CreateLogFile();
+        qDebug()<<"hello word";
+    }
 }
 void MyStitcher::SaveImage(std::string file_path){
-    cv::imwrite(file_path, result_img_);
+    if(!result_img_.empty()){
+        cv::imwrite(file_path, result_img_);
+    }
 }
 void MyStitcher::ImgNamesClean()
 {
@@ -553,4 +560,44 @@ void MyStitcher::ImgNamesClean()
     }else {
         LOGLN("this image names is empty");
     }
+}
+int MyStitcher::CreateLogFile()
+{
+    QString filePath=QDir::currentPath();
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString fileName=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz")+".txt";
+    QString file_full_path=filePath+"/"+fileName;
+    log_file_path_=file_full_path.toStdString();
+    std::cout<<log_file_path_<<std::endl;
+    qDebug()<<file_full_path;
+    QFileInfo file_mesage(filePath+'/'+fileName);
+    QDir tempDir;
+    //临时保存程序当前路径
+    QString currentDir = tempDir.currentPath();
+    //如果filePath路径不存在，创建它
+    if(!tempDir.exists(filePath))
+    {
+        qDebug()<<"不存在该路径"<<endl;
+        tempDir.mkpath(filePath);
+    }
+    QFile temp_file(file_full_path);
+    //判断文件是否存在
+        if(temp_file.exists())
+        {
+            qDebug()<<"文件已经存在！";
+        }else{
+            //存在打开，不存在创建
+            temp_file.open(QIODevice::ReadWrite | QIODevice::Text);
+            //写入内容,这里需要转码，否则报错。
+            QByteArray str = fileName.toUtf8();
+            //写入QByteArray格式字符串
+            temp_file.write(str);
+
+            //提示成功
+            qDebug()<<"创建文件,文件创建成功";
+        }
+        //关闭文件
+        temp_file.close();
+        return 0;
+
 }
