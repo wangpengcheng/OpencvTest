@@ -37,33 +37,27 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui
-INCLUDEPATH +=  E:/opencv3.4.0/install/include/ #
+INCLUDEPATH +=  $$PWD/3rdparty/libopencv/include \
+#                3rdparty/libopencv/include/opeencv2 \
+#                3rdparty/libopencv/include/opeencv2
 #                E:/opencv3.4.0/install/include/opencv\
 #                E:/opencv3.4.0/install/include/opencv2
 
-LIBS += E:/opencv3.4.0/install/x64/vc14/lib/opencv_aruco340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_bgsegm340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_calib3d340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_ccalib340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_core340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_features2d340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_fuzzy340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_highgui340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_img_hash340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_imgcodecs340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_imgproc340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_line_descriptor340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_objdetect340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_optflow340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_reg340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_rgbd340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_saliency340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_shape340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_stereo340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_stitching340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_structured_light340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_superres340d.lib \
-        E:/opencv3.4.0/install/x64/vc14/lib/opencv_surface_matching340d.lib \
+LIBS += -L$$PWD/3rdparty/libopencv/lib/ -lopencv_aruco340d  \
+        -lopencv_bgsegm340d -lopencv_bioinspired340d -lopencv_calib3d340d \
+        -lopencv_ccalib340d -lopencv_core340d -lopencv_datasets340d \
+        -lopencv_dnn340d -lopencv_dpm340d -lopencv_face340d \
+        -lopencv_features2d340d -lopencv_flann340d -lopencv_fuzzy340d \
+        -lopencv_highgui340d -lopencv_img_hash340d -lopencv_imgcodecs340d \
+        -lopencv_imgproc340d -lopencv_line_descriptor340d -lopencv_ml340d \
+        -lopencv_objdetect340d -lopencv_optflow340d -lopencv_phase_unwrapping340d \
+        -lopencv_photo340d -lopencv_plot340d -lopencv_reg340d \
+        -lopencv_rgbd340d -lopencv_saliency340d -lopencv_shape340d \
+        -lopencv_stereo340d -lopencv_stitching340d -lopencv_structured_light340d \
+        -lopencv_superres340d -lopencv_surface_matching340d -lopencv_text340d \
+        -lopencv_tracking340d -lopencv_video340d -lopencv_videoio340d \
+        -lopencv_videostab340d -lopencv_xfeatures2d340d -lopencv_ximgproc340d \
+        -lopencv_xobjdetect340d -lopencv_xphoto340d
 
 # E:/opencv3.4.5/opencv/build/x64/vc14/lib/opencv_world345d.lib
 # Default rules for deployment.

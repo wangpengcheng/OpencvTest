@@ -1,6 +1,22 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+/****************************************************************************
+** @projectName   OpencvTest
+** QT Version    5.11.3
+** This file is part of the OpencvTest project.
+** @file          mainwindow.h
+** @brief         主要用来实现主界面
+** @details       与mainwindow.ui绑定实现界面的显示
+** @author
+** @QQ            673018396
+** @email
+** @address
+** @date          2019-03-30 周六  10:48:08
+** @example
+**
+**
+**
+*****************************************************************************/
 #include <fstream>
 #include <iostream>
 #include <QMainWindow>
@@ -34,25 +50,25 @@ public slots:
 signals:
 
 private slots:
-     void on_delete_img_button_clicked();
+     void on_delete_img_button_clicked();//删除图片按钮函数
 
-     void on_clean_imgs_button_clicked();
+     void on_clean_imgs_button_clicked();//清除图片按钮函数
 
-     void on_change_arc_button_clicked();
+     void on_change_arc_button_clicked();//更改参数图片按钮函数
 
-     void on_channce_changebutton_clicked();
+     void on_channce_changebutton_clicked();//取消按钮函数
 
-     void on_confirm_change_button_clicked();
+     void on_confirm_change_button_clicked();//确定按钮函数
 
-     void on_stitch_img_button_clicked();
+     void on_stitch_img_button_clicked();//拼接图像按钮函数
 
-     void on_save_img_button_clicked();
+     void on_save_img_button_clicked();//保存图像按钮函数
 
 private:
     Ui::MainWindow *ui;
     std::vector<cv::String> images;
     MyStitcher my_stitcher_;//设置stitcher
-    QStandardItemModel *img_list_view_model_=new QStandardItemModel(this);//
+    QStandardItemModel *img_list_view_model_=new QStandardItemModel(this);//设置图片展示列表
     bool arg_is_change_able=false;
     bool is_show_log=true;
    // int last_position;

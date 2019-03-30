@@ -137,6 +137,9 @@
       <height>191</height>
      </rect>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QCheckBox" name="wavecorrect_checkbox">
     <property name="geometry">

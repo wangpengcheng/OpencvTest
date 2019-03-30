@@ -71,6 +71,7 @@ void MainWindow::on_clean_imgs_button_clicked()
     //清空图片名字向量
     images.clear();
 }
+//禁止参数面板函数
 void MainWindow::DisableArg(bool is_able){
 
     if(is_able){
@@ -151,36 +152,36 @@ void MainWindow::InitArg(){
     ui->warptype_combobox->addItem(QString("paniniPortraitA1.5B1"));
     ui->warptype_combobox->addItem(QString("mercator"));
     ui->warptype_combobox->addItem(QString("transverseMercator"));
-    //exposcomptype
+    //设置exposcomptype
     ui->exposcomptype_combobox->addItem(QString("gain_blocks"));
     ui->exposcomptype_combobox->addItem(QString("gain"));
     ui->exposcomptype_combobox->addItem(QString("no"));
-    //seamfindtype
+    //设置seamfindtype
     ui->seamfindtype_combobox->addItem(QString("gc_color"));
     ui->seamfindtype_combobox->addItem(QString("voronoi"));
     ui->seamfindtype_combobox->addItem(QString("gc_colorgrad"));
     ui->seamfindtype_combobox->addItem(QString("dp_color"));
     ui->seamfindtype_combobox->addItem(QString("dp_colorgrad"));
     ui->seamfindtype_combobox->addItem(QString("no"));
-    //blendtype
+    //设置blendtype
     ui->blendtype_combobox->addItem(QString("multiband"));
     ui->blendtype_combobox->addItem(QString("feather"));
     ui->blendtype_combobox->addItem(QString("no"));
     //sin_box start
-    //workmegapix
+    //设置workmegapix
     ui->workmegapix_spinbox->setValue(0.6);
-    //seammegapix
+    //设置seammegapix
     ui->seammegapix_spinbox->setValue(0.1);
-    //composemegapix
+    //设置composemegapix
     ui->composemegapix_spinbox->setMinimum(-10);
     ui->composemegapix_spinbox->setValue(-1);
-    //confthresh
+    //设置confthresh
     ui->confthresh_spinbox->setValue(1.0);
-    //matchconf
+    //设置matchconf
     ui->matchconf_spinbox->setValue(0.3);
     ui->blendstrength_spinbox->setValue(5);
     //sin_box end
-    //check box
+    //设置check box
     ui->wavecorrect_checkbox->setCheckState(Qt::CheckState::Checked);
     ui->showimg_checkbox->setCheckState(Qt::CheckState::Checked);
     ui->saveimage_checkbox->setCheckState(Qt::CheckState::Checked);
@@ -275,9 +276,9 @@ void MainWindow::on_save_img_button_clicked()
 {
     QString cur_path=QDir::homePath();//get application file path
     QString dialog_title=QStringLiteral("选择一个文件");
-    QString filter=QStringLiteral("图片文件(*.jpg *.png);;所有文件(*.*)");
+    QString filter=QStringLiteral("图片文件(*.jpg *.png *.bmp);;所有文件(*.*)");
     QUrl file_path=QFileDialog::getSaveFileUrl(this,dialog_title,cur_path,filter);
     //if(file_path.isEmpty()){
-    cv::String temp_path=file_path.toString().replace("file:///","").toStdString();//change file path;
-    my_stitcher_.SaveImage(temp_path);
+    cv::String temp_path=file_path.toString().replace("file:///","").toStdString();//处理获取到的字符串
+    my_stitcher_.SaveImage(temp_path);//保存图片
 }

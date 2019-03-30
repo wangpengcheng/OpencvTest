@@ -5,6 +5,7 @@ MyStitcher::MyStitcher(QObject *parent) : QObject(parent)
     Init();
 }
 int MyStitcher::StitchImages(){
+    //根据是否输出日志决定是否开启时钟计时
 #if ENABLE_LOG
 	int64 app_start_time = getTickCount();
 #endif
@@ -15,6 +16,7 @@ int MyStitcher::StitchImages(){
 
 	// Check if have enough images
 	int num_images = static_cast<int>(img_names_.size());//获取image图片数量
+    //图片小于2输出警告
 	if (num_images < 2)
 	{
 		LOGLN("Need more images...");
@@ -23,12 +25,13 @@ int MyStitcher::StitchImages(){
 	//设置相关参数，若按原图片大小进行拼接时，会在曝光补偿时造成内存溢出，所以在计算时缩小图像尺寸变为work_megapix*10000
 	double work_scale = 1, seam_scale = 1, compose_scale = 1;
 	bool is_work_scale_set = false, is_seam_scale_set = false, is_compose_scale_set = false;
-	//查找特征点
+
+	//开始寻找特征点
 	LOGLN("Find image feature...");
 #if ENABLE_LOG
 	int64 t = getTickCount();
 #endif
-
+    //根据输入参数，决定特征点找寻函数类型
 	Ptr<FeaturesFinder> finder;
 	if (features_type_ == "surf")
 	{
@@ -63,7 +66,7 @@ int MyStitcher::StitchImages(){
 	{
 		full_img = imread(img_names_[i]);//读取图片
 		full_img_sizes[i] = full_img.size();//未缩放图片大小
-
+        //图片读取失败，输出参数
 		if (full_img.empty())
 		{
 			LOGLN("Can't open image " << img_names_[i]);
@@ -95,35 +98,38 @@ int MyStitcher::StitchImages(){
 		// 计算图像特征点，以及计算特征点描述子，并将img_idx设置为i
 		(*finder)(img, features[i]);
 		features[i].img_idx = i;
+        //输出计算出的图像特征
 		LOGLN("Features in image #" << i + 1 << ": " << features[i].keypoints.size());
-
+        //重新进行缩放，方便下面的计算
 		cv::resize(full_img, img, Size(), seam_scale, seam_scale, INTER_LINEAR_EXACT);
 		images[i] = img.clone();//拷贝最终结果
 	}
-
+    //释放finder内存空间
 	finder->collectGarbage();
 	full_img.release();//释放内存
 	img.release();//释放内存
-
+    //输出找寻开始时间
 	LOGLN("Finding features, time: " << ((getTickCount() - t) / getTickFrequency()) << " sec");
-
+    //开始图片之间的两两特征匹配
 	LOG("Pairwise matching...\n");
 #if ENABLE_LOG
 	t = getTickCount();
 #endif
 	//使用最近邻和次近邻匹配，对任意两幅图进行匹配
-	vector<MatchesInfo> pairwise_matches;
-	Ptr<FeaturesMatcher> matcher;
+	vector<MatchesInfo> pairwise_matches;//初始化匹配结果信息
+	Ptr<FeaturesMatcher> matcher;//初始化匹配指针
+    //根据选择参数，选择匹配算子构造函数
 	if (matcher_type_ == "affine")
 		matcher = makePtr<AffineBestOf2NearestMatcher>(false, try_cuda_, match_conf_);
-	else if (range_width_== -1)
+	else if (range_width_== -1)//
 		matcher = makePtr<BestOf2NearestMatcher>(try_cuda_, match_conf_);
 	else
 		matcher = makePtr<BestOf2NearestRangeMatcher>(range_width_, try_cuda_, match_conf_);
 	//对pairwise_matches中大于0的进行匹配
 	(*matcher)(features, pairwise_matches);
+    //释放matcher内存
 	matcher->collectGarbage();
-
+    //输出所用时间
 	LOGLN("Pairwise matching, time: " << ((getTickCount() - t) / getTickFrequency()) << " sec");
 
 	// 是否需要存储特征
@@ -135,10 +141,11 @@ int MyStitcher::StitchImages(){
 	}
 
 	//将置信度高于设置门限的留下来，其他的删除
-	vector<int> indices = leaveBiggestComponent(features, pairwise_matches, conf_thresh_);
+	vector<int> indices = leaveBiggestComponent(features, pairwise_matches, conf_thresh_);//根据执行度筛选匹配特征值
 	vector<Mat> img_subset;
 	vector<String> img_names_subset;
 	vector<Size> full_img_sizes_subset;
+    //处理筛选后的结果
 	for (size_t i = 0; i < indices.size(); ++i)
 	{
 		img_names_subset.push_back(img_names_[indices[i]]);
@@ -232,7 +239,7 @@ int MyStitcher::StitchImages(){
 		for (size_t i = 0; i < cameras.size(); ++i)
 			cameras[i].R = rmats[i];
 	}
-
+    //开始图像弯曲和融合
 	LOGLN("Warping images (auxiliary)... ");//弯曲图像
 #if ENABLE_LOG
 	t = getTickCount();
@@ -241,10 +248,10 @@ int MyStitcher::StitchImages(){
 	vector<Point> corners(num_images);//统一坐标后的顶点
 	vector<UMat> masks_warped(num_images);
 	vector<UMat> images_warped(num_images);
-	vector<Size> sizes(num_images);
+	vector<Size> sizes(num_images);//图像大小
 	vector<UMat> masks(num_images);//融合掩码
 
-								   // 准备图像融合掩码
+	// 准备图像融合掩码
 	for (int i = 0; i < num_images; ++i)
 	{
 		masks[i].create(images[i].size(), CV_8U);//mask 为模，和图像大小一样，设置为白色，在上面进行融合
@@ -309,7 +316,7 @@ int MyStitcher::StitchImages(){
 	}
 	//warped_image_scale焦距中值;
 	Ptr<RotationWarper> warper = warper_creator->create(static_cast<float>(warped_image_scale * seam_work_aspect));
-
+    //根据前面的选择参数，对图像进行计算和弯曲
 	for (int i = 0; i < num_images; ++i)
 	{
 		Mat_<float> K;
@@ -327,10 +334,11 @@ int MyStitcher::StitchImages(){
 	vector<UMat> images_warped_f(num_images);
 	for (int i = 0; i < num_images; ++i)
 		images_warped[i].convertTo(images_warped_f[i], CV_32F);
-	//输出球面变换
+	//输出弯曲变换时间
 	LOGLN("Warping images, time: " << ((getTickCount() - t) / getTickFrequency()) << " sec");
-
+    //图像补偿和修复
 	Ptr<ExposureCompensator> compensator = ExposureCompensator::createDefault(expos_comp_type_);
+    //开始图像补偿
 	compensator->feed(corners, images_warped, masks_warped);
 	//查找图片之间的拼缝
 	Ptr<SeamFinder> seam_finder;
@@ -451,8 +459,9 @@ int MyStitcher::StitchImages(){
 
 		// 曝光补偿
 		compensator->apply(img_idx, corners[img_idx], img_warped, mask_warped);
-
+        //转换图片格式
 		img_warped.convertTo(img_warped_s, CV_16S);
+        //释放内存
 		img_warped.release();
 		img.release();
 		mask.release();

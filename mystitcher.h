@@ -26,6 +26,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+//使用opencv start
 #include <opencv2/opencv_modules.hpp>
 #include <opencv2/core/utility.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -40,7 +41,7 @@
 #include <opencv2/stitching/detail/seam_finders.hpp>
 #include <opencv2/stitching/detail/warpers.hpp>
 #include <opencv2/stitching/warpers.hpp>
-
+//使用opencv end
 #define ENABLE_LOG 1 //设置是否输出错误
 #define LOG(msg) std::cout << msg //输出错误
 #define LOGLN(msg) std::cout << msg << std::endl //输出错误
@@ -60,7 +61,7 @@ public:
     inline std::vector<String> img_names(){return img_names_;}//图片路径
     inline void set_img_names(std::vector<String> image_names){img_names_=image_names;}
     inline bool preview(){return is_preview_;}//是否开启preveiw
-    inline void set_preview(bool preview){is_preview_=preview;}
+    inline void set_preview(bool preview){is_preview_=preview;}//设置是否开启preview模式
     inline bool try_cuda(){return try_cuda_;}//是否使用cuda
     inline void set_cuda(bool is_cuda){try_cuda_=is_cuda;}
     inline double work_megapix(){return work_megapix_;}//图像配准步骤的分辨率
@@ -118,7 +119,7 @@ public:
     inline std::string seam_find_type(){return seam_find_type_;}//拼接缝隙的方法
     inline void set_seam_find_type(std::string seam_find_type){seam_find_type_=seam_find_type ;}
     inline int blend_type(){return blend_type_;}//图片融合方法
-    void set_blend_type(std::string blend_type){
+    void set_blend_type(std::string blend_type){//设置参数选择
             if(blend_type=="no"){
                 blend_type = Blender::NO;}
             else if (blend_type == "feather"){
@@ -131,7 +132,7 @@ public:
         }
     inline float blend_strength(){return blend_strength_;}//融合强度
     inline void set_blend_strength(float blend_strength){blend_strength_=blend_strength;}
-    inline int range_width(){return range_width_;}
+    inline int range_width(){return range_width_;}//range_width
     inline void set_range_width(int range_width){range_width_=range_width;}
     inline bool is_show_image(){return is_show_img_;}
     inline void set_show_image(bool is_show){is_show_img_=is_show;}
@@ -170,9 +171,9 @@ private :
     std::string matcher_type_ = "homography";//配准模式
     std::string estimator_type_ = "homography";//变换估计量类型
     std::string ba_cost_func_ = "ray";//回调成本函数
-    std::string ba_refine_mask_ = "xxxxx";
+    std::string ba_refine_mask_ = "xxxxx";//回调掩码格式
     bool do_wave_correct_ = true;//是否启用波纹矫正
-    WaveCorrectKind wave_correct_ = detail::WAVE_CORRECT_HORIZ;//波纹矫正方向
+    WaveCorrectKind wave_correct_ = detail::WAVE_CORRECT_HORIZ;//波纹矫正方向，水平或者垂直
     bool save_graph_ = false;//是否存储图片
     std::string save_graph_to_;//保存图片到
     std::string warp_type_ = "spherical";//合成类型
