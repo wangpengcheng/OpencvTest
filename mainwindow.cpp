@@ -126,6 +126,7 @@ void MainWindow::InitArg(){
      */
     ui->featurestype_combobox->addItem(QString("surf"));
     ui->featurestype_combobox->addItem(QString("orb"));
+    ui->featurestype_combobox->addItem(QString("sift"));
     //ui->featurestype_combobox->setCurrentIndex(0);
     //设置matchertype
     /*

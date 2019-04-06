@@ -46,10 +46,12 @@ int MyStitcher::StitchImages(){
 	{
 		finder = makePtr<OrbFeaturesFinder>();
 	}
-    //opencv 3.4.0 没有SiftFeaturesFinder;使用3.4.4以上版本可以使用
-//	else if (features_type == "sift") {
-//		finder = makePtr<SiftFeaturesFinder>();
-//	}
+	else if (features_type_ == "sift") {
+         //opencv 3.4.0 没有SiftFeaturesFinder;使用3.4.4以上版本可以使用,使用Surf算子代替
+		//finder = makePtr<SiftFeaturesFinder>();
+        finder = makePtr<SurfFeaturesFinder>();
+	}
+
 	else
 	{
 		cout << "Unknown 2D features type: '" << features_type_ << "'.\n";
